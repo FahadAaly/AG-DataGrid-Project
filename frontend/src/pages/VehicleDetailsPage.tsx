@@ -1,6 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  useTheme,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Loader } from "@/components/ui/Loader";
 import { fetchVehicleById } from "@/api/vehicleApi";
@@ -10,6 +18,7 @@ import { getDisplayFields } from "@/utils/vehicleDetails";
 export const VehicleDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const theme = useTheme();
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +35,7 @@ export const VehicleDetailsPage = () => {
   if (loading) return <Loader />;
   if (!vehicle) return <Box>Not found</Box>;
 
-  //  Main: car name, price, year
+  // Main: car name, price, year
   const summary = [
     vehicle.Brand,
     vehicle.PriceEuro ? `€${vehicle.PriceEuro}` : undefined,
@@ -38,73 +47,104 @@ export const VehicleDetailsPage = () => {
   return (
     <Box
       sx={{
-        maxWidth: 950,
+        maxWidth: 700,
         mx: "auto",
-        mt: 4,
-        px: { xs: 2, md: 4 },
-        fontFamily: "monospace",
+        mt: 6,
+        px: { xs: 2, md: 0 },
+        fontFamily: "Inter, sans-serif",
       }}
     >
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          mb: 5,
+          mb: 4,
         }}
       >
-        <Box sx={{ fontSize: 36, letterSpacing: 2 }}>{summary}</Box>
+        <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: 1 }}>
+          {summary}
+        </Typography>
         <Button
           variant="outlined"
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(-1)}
           sx={{
-            fontFamily: "monospace",
-            fontSize: 14,
-            px: 3,
-            py: 1,
+            fontWeight: 600,
             borderRadius: 2,
+            borderColor: theme.palette.primary.light,
+            color: theme.palette.primary.main,
+            transition: "all 0.15s",
+            "&:hover": {
+              background: theme.palette.action.hover,
+              borderColor: theme.palette.primary.main,
+            },
           }}
         >
           Back to Grid
         </Button>
       </Box>
 
-      <Box
+      {/* Section Title */}
+      <Typography
+        variant="h5"
         sx={{
           fontWeight: 700,
-          fontSize: 28,
-          mb: 3,
-          letterSpacing: 2,
+          letterSpacing: 1,
+          mb: 2,
+          color: theme.palette.grey[700],
         }}
       >
         Details
-      </Box>
+      </Typography>
 
-      <Box
+      {/* Card with Vehicle Details */}
+      <Card
         sx={{
-          border: "1px solid gray",
-          borderRadius: 3,
-          p: 6,
-          minHeight: 250,
-          width: { xs: "100%", md: "100%" },
-          mx: "auto",
+          borderRadius: 4,
+          boxShadow: "0 2px 16px 0 rgb(24 40 64 / 6%)",
+          px: { xs: 2, md: 4 },
         }}
       >
-        <Box sx={{ fontSize: 16 }}>
-          {fields.map(
-            (field) =>
-              field.value && (
-                <div key={field.label} style={{ marginBottom: 18 }}>
-                  <span style={{ fontWeight: 400, color: "Gray" }}>
-                    {field.label}:
-                  </span>{" "}
-                  <span style={{ fontWeight: 700 }}>{field.value}</span>
-                </div>
-              )
-          )}
-        </Box>
-      </Box>
+        <CardContent>
+          <Stack spacing={2}>
+            {fields.map(
+              (field) =>
+                field.value && (
+                  <Box
+                    key={field.label}
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Typography
+                      sx={{
+                        minWidth: 150,
+                        color: theme.palette.grey[600],
+                        fontWeight: 500,
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {field.label}:
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: 17,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      {field.value}
+                    </Typography>
+                  </Box>
+                )
+            )}
+          </Stack>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
