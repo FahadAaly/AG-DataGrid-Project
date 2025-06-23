@@ -11,12 +11,15 @@ import { Toolbar } from "@/components/shared/Toolbar";
 import { GenericGrid } from "./GenericGrid";
 
 import { Loader } from "@/components/ui/Loader";
-import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { AppSnackbar } from "@/components/ui/AppSnackBar";
+import { AppIconButton } from "@/components/ui/AppIconButton";
 
 import { Vehicle, VehicleSearchParams } from "@/types/vehicle";
 import { deleteVehicle } from "@/api/vehicleApi";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const PAGE_SIZE = 20;
 
@@ -41,21 +44,22 @@ const DataGrid = () => {
       headerName: "Actions",
       cellRenderer: (params: { data: any }) => (
         <>
-          <Button
+          <AppIconButton
             onClick={() => {
               navigate(`/vehicle/${params.data._id}`);
             }}
+            color="primary"
           >
-            View
-          </Button>
-          <Button
+            <VisibilityIcon />
+          </AppIconButton>
+          <AppIconButton
             color="error"
             onClick={async () => {
               handleDeleteClick(params.data._id);
             }}
           >
-            Delete
-          </Button>
+            <DeleteIcon />
+          </AppIconButton>
         </>
       ),
     },
