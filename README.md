@@ -39,18 +39,18 @@ cd your-repo-name
 
 2. Setup Backend
 
-cd backend
-cp .env.example .env   # Fill in your MongoDB URI and port
-npm install
-npm run seed           # (Seeds DB from provided CSV)
-npm run dev            # Starts backend on localhost:5001 by default
+- cd backend
+- cp .env.example .env   # Fill in your MongoDB URI and port
+- npm install
+- npm run seed           # (Seeds DB from provided CSV)
+- npm run dev            # Starts backend on localhost:5001 by default
 
 3. Setup Frontend
 
-cd frontend
-cp .env.example .env   # Edit VITE_API_URL if backend port changed
-npm install
-npm run dev            # Starts Vite dev server
+- cd frontend
+- cp .env.example .env   # Edit VITE_API_URL if backend port changed
+- npm install
+- npm run dev            # Starts Vite dev server
 
 4. Visit in Browser
 - Frontend: http://localhost:5173 (default)
