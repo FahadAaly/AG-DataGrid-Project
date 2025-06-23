@@ -9,6 +9,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { usePaginated } from "@/hooks/usePaginated";
 import { Toolbar } from "@/components/shared/Toolbar";
 import { GenericGrid } from "./GenericGrid";
+import { Box } from "@mui/material";
 
 import { Loader } from "@/components/ui/Loader";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -150,7 +151,6 @@ const DataGrid = () => {
         onSearch={setSearchValue}
         onAddFilter={handleAddFilter}
       />
-
       {/* FILTER SELECTED CHIPS */}
       <Stack direction="row" spacing={1} mt={2} mb={1}>
         {filters.map((filter, idx) => (
@@ -163,13 +163,14 @@ const DataGrid = () => {
           />
         ))}
       </Stack>
-
       <GenericGrid rows={vehicles} columnDefs={columns} />
-      <Pagination
-        count={pagination.totalPages}
-        page={pagination.page}
-        onChange={(_, value) => setPage(value)}
-      />
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+        <Pagination
+          count={pagination.totalPages}
+          page={pagination.page}
+          onChange={(_, value) => setPage(value)}
+        />
+      </Box>
       <ConfirmDialog
         open={confirmOpen}
         title="Delete Vehicle"
