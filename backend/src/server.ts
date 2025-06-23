@@ -13,11 +13,12 @@ app.use("/api/vehicles", vehicleRoutes);
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5001;
-connectDB(
-  process.env.MONGO_URI ||
-    "mongodb+srv://root:pass123@cluster0.dikk7xz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-).then(() => {
-  app.listen(PORT, () =>
-    console.log(`🚀 API ready at http://localhost:${PORT}`)
-  );
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  throw new Error("MONGO_URI environment variable is not defined");
+}
+connectDB(mongoUri).then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 API ready at http://localhost:${PORT}`);
+  });
 });
