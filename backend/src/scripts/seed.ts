@@ -9,7 +9,7 @@ if (!MONGO_URI) {
   throw new Error("MONGO_URI environment variable is not defined");
 }
 
-const CSV_FILE = "../data/ElectricCarData.csv";
+const CSV_FILE = "./src/data/ElectricCarData.csv";
 
 async function seed() {
   await mongoose.connect(MONGO_URI!);
